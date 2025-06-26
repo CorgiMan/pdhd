@@ -1,0 +1,62 @@
+[[~ it.header ? '<h1>Minesweeper</h1>' : '' ]]
+
+<div class="board mb-1">
+[[ for(let i=0; i < W * H; i++) { ]]
+    <div class="cell" hx-trigger="click" hx-post="/minesweeper/cell/[[=i]]" hx-swap="none">
+        <div id="cell-[[= i ]]"></div>
+    </div>
+[[ } ]]
+</div>
+
+<div class="controls grid mt-3">
+    <button class="p-1 outline contrast opacity-100" disabled>
+        <div id="mines-left">[[= minesLeft]]</div>
+    </button>
+    <button class="p-1 outline contrast opacity-100" disabled>
+        <div id="seconds-clock">0</div>
+    </button>
+    <button class="p-1 material-icons" hx-trigger="click" hx-get="/minesweeper" hx-target="#tab-content" hx-swap="innerHTML">recycling</button>
+    <script>
+        if (document.timerInterval) clearInterval(document.timerInterval);
+        document.timerInterval = setInterval(() => {
+            if (document.getElementById('game-result').textContent) return;
+            document.getElementById('seconds-clock').textContent = Math.floor(Date.now() / 1000 - [[=startTime]]);
+        }, 1000);
+    </script>
+</div>
+
+<div class="m-1">
+    <div id="game-result"></div>
+</div>
+
+<style>
+    .board {
+        display: grid;
+        grid-template-columns: repeat([[=W]], 24px);
+        grid-template-rows: repeat([[=H]], 24px);
+        gap: 2px;
+    }
+
+    .controls {
+        width: [[=Math.max(200, W * 24 + 2 * W - 4)]]px;
+    }
+
+    .cell {
+        display: flex;
+        width: 20px;
+        height: 20px;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background: #777;
+        border: 1px solid #ccc;
+    }
+
+    .cell:hover {
+        background: #888;
+    }
+
+    .cell:has(.pressed) {
+        background: #555;
+    }
+</style>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="color-scheme" content="light dark" />
+
+        <title>PDHD techstack</title>
+
+        <!-- PICOCSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.pumpkin.min.css" />
+
+        <!-- MATERIAL ICONS -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=block" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=block" rel="stylesheet" />
+
+        <!-- TAILWIND -->
+        <link href="/public/styles.css" rel="stylesheet" />
+
+        <!-- ALPINEJS -->
+        <script src="//unpkg.com/alpinejs" defer></script>
+
+        <!-- HTMX -->
+        <script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/htmx-ext-class-tools@2.0.1/class-tools.js"></script>
+
+        <!-- LIVE RELOAD -->
+        <script>
+            const evtSource = new EventSource('/live-reload')
+            evtSource.onerror = (err) => {
+                setTimeout(() => window.location.reload(), 1000)
+            }
+        </script>
+    </head>
+
+    <body hx-ext="class-tools" class="transition-opacity opacity-0 duration-10" classes="add opacity-100">
+        <!-- ERRORS SHOULD STILL BE RENDERED AND ADD CMD KEY AS HEADER -->
+        <script>
+            document.body.addEventListener('htmx:beforeSwap', function (event) {
+                event.detail.shouldSwap = true
+            })
+
+            document.body.addEventListener('htmx:configRequest', function (event) {
+                const e = event.detail.triggeringEvent
+                if (e && e.type === 'click' && e.metaKey) event.detail.headers['X-Cmd-Key'] = 'true'
+            })
+        </script>
+
+        <!-- CONTENT -->
+        <header class="container">
+            <nav>
+                <ul>
+                    <li><b><a class="contrast cursor-pointer" hx-push-url="/users" hx-get="/users" hx-target="#tab-content">Users</a></b></li>
+                    <li><b><a class="contrast cursor-pointer" hx-push-url="/posts" hx-get="/posts" hx-target="#tab-content">Posts</a></b></li>
+                    <li><b><a class="contrast cursor-pointer" hx-push-url="/files" hx-get="/files" hx-target="#tab-content">Files</a></b></li>
+                    <li><b><a class="contrast cursor-pointer" hx-push-url="/feature-flags" hx-get="/feature-flags" hx-target="#tab-content">Feature Flags</a></b></li>
+                    <li><b><a class="contrast cursor-pointer" hx-push-url="/minesweeper" hx-get="/minesweeper" hx-target="#tab-content">Minesweeper</a></b></li>
+                    <li><b><a class="contrast cursor-pointer" hx-push-url="/modal" hx-get="/modal" hx-target="#tab-content">Modal</a></b></li>
+                </ul>
+                <ul>
+                    [[ if(username) { ]] <button class="mr-1 text-sm font-bold text-center outline secondary" hx-post="/logout" hx-swap="afterend">Logout [[=username]]</button> [[ } ]]
+                    <li class="cursor-default">
+                        <strong>P<sub>ostgres</sub>D<sub>rizzle</sub>H<sub>tmx</sub>D<sub>eno</sub></strong>
+                    </li>
+                </ul>
+            </nav>
+            <div class="absolute left-full mt-10 overflow-visible whitespace-nowrap" id="error-content" />
+        </header>
+        <main class="container relative">
+            <div id="tab-content">[[~ content ]]</div>
+        </main>
+        <footer class="container"></footer>
+    </body>
+
+    <!-- SHOW HTML BOXES -->
+    <script>
+        document.querySelectorAll('*').forEach((element) => {
+            const colors = ['border-gray-500', 'border-gray-600', 'border-gray-700', 'border-gray-800', 'border-gray-900']
+            const randomColor = colors[Math.floor(Math.random() * colors.length)]
+            // element.classList.add(randomColor);
+            // element.classList.add('border')
+            // element.classList.add('border-solid')
+        })
+    </script>
+</html>

@@ -1,0 +1,1 @@
+ALTER TABLE "fileDirectory" ALTER COLUMN "parentId" DROP NOT NULL;

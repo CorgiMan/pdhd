@@ -1,0 +1,18 @@
+<table>
+    <thead>
+        <tr>
+            [[ Object.keys(it[0]).forEach(function(key) { ]]
+            <th>[[= key ]]</th>
+            [[ }) ]]
+        </tr>
+    </thead>
+    <tbody>
+        [[ it.forEach(function(row){ ]]
+        <tr>
+            [[ Object.values(row).forEach(function(value) { ]]
+            <td>[[= value ]]</td>
+            [[ }) ]]
+        </tr>
+        [[ }) ]]
+    </tbody>
+</table>

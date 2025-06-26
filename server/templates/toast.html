@@ -1,0 +1,10 @@
+[[ const colorClass = it.stack ? 'bg-red-700' : 'bg-gray-800' ]]
+
+<div hx-swap-oob="afterbegin:#error-content">
+    <div class="z-10 pr-40 relative transform transition-transform" classes="add -translate-x-full, add translate-x-0:10s, remove -translate-x-full">
+        <div class="p-4 max-w-max my-2 bg-gray-900 text-lg border-solid border-2 border-gray-400 rounded">
+            <p class="font-bold">[[= it.header ]]</p>
+            [[ if(it.stack) { ]]<pre class="[[= colorClass ]]">[[= it.stack ]]</pre>[[ } ]]
+        </div>
+    </div>
+</div>

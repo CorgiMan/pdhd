@@ -1,9 +1,32 @@
 {
-  "tasks": {
-    "dev": "deno run --allow-net --allow-read --allow-env --watch index.js"
-  },
-  "importMap": "./import_map.json",
-  "fmt": {
-    "lineWidth": 120
-  }
+    "tasks": {
+        "run": "deno run --allow-run --allow-net --allow-read --allow-env --allow-ffi --watch=. index.js",
+        "migrate": "deno -A --node-modules-dir npm:drizzle-kit --config db/drizzle.config.js generate",
+        "migrate:custom": "deno -A --node-modules-dir npm:drizzle-kit generate --config db/drizzle.config.js --custom"
+    },
+    "fmt": {
+        "indentWidth": 4,
+        "lineWidth": 280,
+        "semiColons": false,
+        "singleQuote": true
+    },
+    "exclude": [
+        ".env",
+        ".git",
+        "node_modules",
+        "**/*.sqlite",
+        "**/*.db"
+    ],
+    "imports": {
+        "@/": "./",
+        "oak": "https://deno.land/x/oak@v12.5.0/mod.ts",
+        "drizzle-orm": "npm:drizzle-orm@0.35.3",
+        "drizzle-orm/postgres-js": "npm:drizzle-orm@0.35.3/postgres-js",
+        "drizzle-orm/postgres-js/migrator": "npm:drizzle-orm@0.35.3/postgres-js/migrator",
+        "postgres": "npm:postgres@3.4.5",
+        "drizzle-kit": "npm:drizzle-kit@0.26.2",
+        "dotenv": "https://deno.land/x/dotenv/mod.ts",
+        "drizzle-orm/pg-core": "npm:drizzle-orm@0.35.3/pg-core",
+        "eta": "https://deno.land/x/eta@v3.5.0/src/index.ts"
+    }
 }

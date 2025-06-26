@@ -1,0 +1,4 @@
+<div class="flex justify-between">
+    <strong>[[= name ]]</strong>
+    <input type="checkbox" role="switch" name="checked" hx-post=[[=hxPost ]] hx-vals='{ "name": "[[= name ]]" }' hx-trigger="change" hx-swap="none" [[=checked ? 'checked' : '' ]]>
+</div>

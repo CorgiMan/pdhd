@@ -1,0 +1,6 @@
+[[~ win ? '<div id="game-result" hx-swap-oob="true">You win!</div>' : '' ]]
+[[~ lose ? '<div id="game-result" hx-swap-oob="true">You lose!</div>' : '' ]]
+<div id="mines-left" hx-swap-oob="true">[[= minesLeft]]</div>
+[[ for(let {id, class_, content} of cells) { ]]
+<div id="cell-[[= id]]" class="pressed [[= class_]]" hx-swap-oob="true">[[= content]]</div>
+[[ } ]]

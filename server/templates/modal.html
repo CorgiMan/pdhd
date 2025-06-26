@@ -1,0 +1,26 @@
+[[
+event = it.event || Math.random().toString(36).substring(2, 15)
+$openModal = `$dispatch('${event}')`
+]]
+<div x-data="{ showModalTs: 0}" @[[=event]].window="showModalTs = Date.now()">
+    <dialog :open="showModalTs > 0">
+        <article @click.outside="if(Date.now()-showModalTs > 10) showModalTs = 0">
+            [[~ it.body ]]
+            [[ if (it.cancel || it.confirm || it.footer) { ]]
+            <footer>
+                [[ if (it.foorter) { ]] [[~ it.footer ]] [[ } ]]
+                [[ if (it.cancel) { ]]
+                <button class="secondary" @click="showModalTs = 0">
+                    Cancel
+                </button>
+                [[ } ]]
+                [[ if (it.confirm) { ]]
+                <button @click="[[= it.confirm ]]; showModalTs = 0">
+                    Confirm
+                </button>
+                [[ } ]]
+            </footer>
+            [[ } ]]
+        </article>
+    </dialog>
+</div>
