@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Omega app</title>
+        <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="/public/styles.css" rel="stylesheet" />
+        <script>
+            const evtSource = new EventSource("/live-reload");
+            evtSource.onerror = (err) => {
+                setTimeout(() => window.location.reload(), 250);
+            };
+
+            // Add HTMX error handling
+            document.addEventListener("htmx:responseError", function (evt) {
+                const errorDiv = document.getElementById("error-content");
+                let text = `
+                <div class='bg-red-900 text-white p-4 rounded mt-4 relative'>
+                <button
+                    onclick='document.getElementById("error-content").innerHTML=""'
+                    class='absolute top-2 right-2 text-white hover:text-gray-300'
+                >&times;</button>`;
+                // errorDiv.innerHTML += " class='relative top-2 right-2 text-white hover:text-gray-300'>&times;</button>";
+                // Try to parse the error response
+                let errorMessage = evt.detail.error;
+                let stackTrace = "";
+
+                try {
+                    const errorResponse = JSON.parse(evt.detail.xhr.response);
+                    errorMessage = errorResponse.error;
+                    stackTrace = errorResponse.stack;
+                } catch (e) {
+                    console.error(e);
+                }
+
+                if (stackTrace) {
+                    console.error(stackTrace);
+                    text += "<pre class='mt-2 text-sm overflow-x-auto'>" + stackTrace + "</pre>";
+                }
+                text += "</div>";
+                errorDiv.innerHTML = text;
+            });
+        </script>
+    </head>
+    <body class="bg-gray-900">
+        <div class="container mx-auto p-4">
+            <div class="mb-4">
+                <nav class="flex border-b border-gray-700">
+                    <% it.tabs.forEach(function(tab){ %>
+                    <button
+                        class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-blue-400"
+                        hx-push-url="<%= tab.path %>"
+                        hx-get="<%= tab.path %>"
+                        hx-target="#tab-content"
+                        hx-swap="innerHTML"
+                    >
+                        <%= tab.label %>
+                    </button>
+                    <% }) %>
+                </nav>
+            </div>
+
+            <div id="tab-content">
+                <%~ it.content %>
+            </div>
+
+            <div id="error-content"></div>
+        </div>
+    </body>
+</html>

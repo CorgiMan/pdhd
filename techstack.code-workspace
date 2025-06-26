@@ -1,0 +1,35 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "deno.enable": true,
+    "deno.lint": true,
+    "deno.unstable": false,
+    "deno.config": "./deno.json",
+    "deno.importMap": "./import_map.json",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "denoland.vscode-deno",
+    "[javascript]": {
+      "editor.defaultFormatter": "denoland.vscode-deno"
+    },
+    "files.exclude": {
+      "**/.git": true,
+      "**/.DS_Store": true
+    },
+    "files.associations": {
+      "*.js": "javascript"
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/bower_components": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "denoland.vscode-deno"
+    ]
+  }
+}

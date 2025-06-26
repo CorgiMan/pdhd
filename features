@@ -1,0 +1,13 @@
+deno + htmx + drizzle
+
+live reload
+auto adds index.html if needed
+shows errors in browser
+array utils
+
+schema utils to auto add id, createdAt, updatedAt, deletedAt
+and auto add indexes for foreign keys
+auto joins with db.fetch
+
+render responses with eta
+auto add endpoints to router
